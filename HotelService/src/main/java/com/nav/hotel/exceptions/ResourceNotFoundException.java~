@@ -1,5 +1,0 @@
-package com.nav.hotel.exceptions;
-
-public class ResourceNotFoundException extends RuntimeException{
-    
-}

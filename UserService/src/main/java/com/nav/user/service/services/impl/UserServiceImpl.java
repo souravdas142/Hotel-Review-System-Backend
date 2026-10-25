@@ -8,7 +8,6 @@ import com.nav.user.service.external.services.HotelService;
 import com.nav.user.service.repositories.UserRepository;
 import com.nav.user.service.services.UserService;
 import org.slf4j.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -23,17 +22,22 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
 
-    @Autowired
+    
     private UserRepository userRepository;
-
-    @Autowired
     private RestTemplate restTemplate;
-
-    @Autowired
     private HotelService hotelService;
+    private static  Logger logger;
 
-    private static  Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
-
+    public UserServiceImpl(UserRepository userRepository,
+    						RestTemplate restTemplate,
+    						HotelService hotelService) {
+    	    
+    	this.userRepository = userRepository;
+    	this.restTemplate = restTemplate;
+    	this.hotelService = hotelService;
+    	logger = LoggerFactory.getLogger(UserServiceImpl.class);
+    	
+    }
 
     @Override
     public User saveUser(User user) {

@@ -3,7 +3,6 @@ package com.nav.rating.controllers;
 import com.nav.rating.entities.Rating;
 import com.nav.rating.services.RatingService;
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +13,13 @@ import java.util.List;
 @RequestMapping("/ratings")
 public class RatingController {
 
-    @Autowired
+    
     private RatingService ratingService;
+    
+    public RatingController(RatingService ratingService) {
+    	this.ratingService = ratingService;
+    }
+    
     // create ratings
     @PostMapping
     public ResponseEntity<Rating> create(@RequestBody Rating rating) {

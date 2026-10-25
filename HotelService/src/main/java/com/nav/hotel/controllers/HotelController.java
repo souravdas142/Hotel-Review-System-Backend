@@ -2,7 +2,6 @@ package com.nav.hotel.controllers;
 
 import com.nav.hotel.entities.Hotel;
 import com.nav.hotel.services.HotelService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,8 +13,12 @@ import java.util.List;
 @RequestMapping("/hotels")
 public class HotelController {
 
-    @Autowired
+    
     private HotelService hotelService;
+    
+    public HotelController(HotelService hotelService) {
+    	this.hotelService = hotelService;
+    }
 
     //create
 
