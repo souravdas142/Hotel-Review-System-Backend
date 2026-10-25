@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 //Name should be same as the service name
-@FeignClient(name = "HOTEL-SERVICE")
+@FeignClient(name = "hotel-service")
 public interface HotelService {
 
 

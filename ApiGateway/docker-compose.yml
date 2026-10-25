@@ -1,0 +1,97 @@
+
+services:
+  postgres-db:
+    image: postgres:16-alpine
+    container_name: postgres-db
+    environment:
+      POSTGRES_DB: microservices
+      POSTGRES_USER: sourav
+      POSTGRES_PASSWORD: sourav
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - microservices-net
+
+  service-registry:
+    image: souravdas142/service-registry:latest
+    container_name: service-registry
+    ports:
+      - "8761:8761"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev,docker
+    networks:
+      - microservices-net
+
+  config-server:
+    image: souravdas142/config-server:latest
+    container_name: config-server
+    ports:
+      - "8085:8085"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev,docker
+    networks:
+      - microservices-net
+    depends_on:
+      - service-registry
+
+  user-service:
+    image: souravdas142/user-service:latest
+    container_name: user-service
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev,docker
+    networks:
+      - microservices-net
+    depends_on:
+      - postgres-db
+      - service-registry
+      - config-server
+
+  hotel-service:
+    image: souravdas142/hotel-service:latest
+    container_name: hotel-service
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev,docker
+    networks:
+      - microservices-net
+    depends_on:
+      - postgres-db
+      - service-registry
+      - config-server
+
+  rating-service:
+    image: souravdas142/rating-service:latest
+    container_name: rating-service
+    ports:
+      - "8083:8083"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev,docker
+    networks:
+      - microservices-net
+    depends_on:
+      - postgres-db
+      - service-registry
+      - config-server
+
+  api-gateway:
+    image: souravdas142/api-gateway:latest
+    container_name: api-gateway
+    ports:
+      - "8084:8084"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev,docker
+    networks:
+      - microservices-net
+    depends_on:
+      - service-registry
+      - config-server
+
+volumes:
+  postgres-data:
+networks:
+  microservices-net:

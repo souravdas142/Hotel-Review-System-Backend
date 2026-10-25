@@ -1,36 +1,36 @@
 server:
-  port: 8084
-
+  port: ${SERVER_PORT:8084}
 spring:
   application:
-    name: API-GATEWAY
+    name: api-gateway
   config:
-    import: optional:configserver:http://localhost:8085
+    import: optional:configserver:${CONFIG_SERVER_URL:http://config-server:8085}
   cloud:
     gateway:
       routes:
-        - id: USER-SERVICE
-          uri: lb://USER-SERVICE  #lb = load balancer
+        - id: user-service
+          uri: lb://user-service
           predicates:
             - Path=/users/**
-
-        - id: HOTEL-SERVICE
-          uri: lb://HOTEL-SERVICE
+        - id: hotel-service
+          uri: lb://hotel-service
           predicates:
             - Path=/hotels/**,/staffs/**
-
-        - id: RATING-SERVICE
-          uri: lb://RATING-SERVICE
+        - id: rating-service
+          uri: lb://rating-service
           predicates:
             - Path=/ratings/**
-
-      
-#  eureka:
-#    instance:
-#      prefer-ip-address: true
-#    client:
-#      fetchRegistry: true
-#      registerWithEureka: true
-#      serviceUrl:
-#        defaultZone: http://localhost:8761/eureka
-
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: ${EUREKA_DEFAULT_ZONE:http://service-registry:8761/eureka/}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always

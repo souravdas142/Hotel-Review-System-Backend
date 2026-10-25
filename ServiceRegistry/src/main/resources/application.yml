@@ -1,8 +1,25 @@
+server:
+  port: ${SERVER_PORT:8761}
+spring:
+  application:
+    name: service-registry
 eureka:
   instance:
-    hostname: localhost
+    hostname: ${EUREKA_HOSTNAME:localhost}
+    prefer-ip-address: true
   client:
-    registerWithEureka: false
-    fetchRegistry: false
-server:
-  port: 8761
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+  server:
+    wait-time-in-ms-when-sync-empty: 0
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always

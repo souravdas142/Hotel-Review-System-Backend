@@ -1,7 +1,0 @@
-package com.nav.user.service.payload;
-
-public class ApiResponse {
-
-    private String message;
-    private boolean
-}

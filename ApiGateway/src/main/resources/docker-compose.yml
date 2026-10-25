@@ -1,0 +1,11 @@
+services:
+  api-gateway:
+    build: ./api-gateway
+    container_name: api-gateway
+    ports:
+      - "8084:8084" # Allows Arch Linux host to reach http://localhost:8084/users/**
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - service-registry
+      - config-server

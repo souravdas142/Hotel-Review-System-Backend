@@ -1,12 +1,32 @@
 server:
-    port: 8085
-
+  port: ${SERVER_PORT:8085}
 spring:
-    application:
-        name: CONFIG-SERVER
-    cloud:
-        config:
-            server:
-                git:
-                    uri: https://github.com/souravdas142/microservice-tutorial-config.git
-                    clone-on-start: true
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: ${CONFIG_REPO_URI:https://github.com/souravdas142/microservice-cloud-config-server.git}
+          default-label: ${CONFIG_REPO_LABEL:master}
+          search-paths:
+            - 'Hotel-Review-System-Backend/{application}'
+            - 'Hotel-Review-System-Backend'
+          clone-on-start: true
+          basedir: /tmp/config-server-repo
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: ${EUREKA_DEFAULT_ZONE:http://service-registry:8761/eureka/}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always

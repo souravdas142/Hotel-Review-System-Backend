@@ -1,0 +1,9 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_DEFAULT_ZONE:http://service-registry:8761/eureka/}
+  instance:
+    prefer-ip-address: true
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://postgres-db:5432/microservices}
