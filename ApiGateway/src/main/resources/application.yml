@@ -7,19 +7,23 @@ spring:
     import: optional:configserver:${CONFIG_SERVER_URL:http://config-server:8085}
   cloud:
     gateway:
-      routes:
-        - id: user-service
-          uri: lb://user-service
-          predicates:
-            - Path=/users/**
-        - id: hotel-service
-          uri: lb://hotel-service
-          predicates:
-            - Path=/hotels/**,/staffs/**
-        - id: rating-service
-          uri: lb://rating-service
-          predicates:
-            - Path=/ratings/**
+      server:
+        webflux:
+          routes:
+            - id: user-service
+              uri: lb://user-service
+              predicates:
+                - Path=/users/**
+
+            - id: hotel-service
+              uri: lb://hotel-service
+              predicates:
+                - Path=/hotels/**,/staffs/**
+
+            - id: rating-service
+              uri: lb://rating-service
+              predicates:
+                - Path=/ratings/**
 eureka:
   client:
     fetch-registry: true
